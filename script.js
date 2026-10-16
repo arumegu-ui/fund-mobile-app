@@ -85,6 +85,7 @@ function selectFund(code){
   badge.className = "badge " + a.signal.className;
 
   drawChart(series.slice(-90), a);
+  renderEmaSummary(a);
   renderAnalysis(a);
 }
 
@@ -157,6 +158,22 @@ function rsi(values, period){
   }
   if(loss === 0) return 100;
   return 100 - (100 / (1 + gain / loss));
+}
+
+
+function renderEmaSummary(a){
+  const items = [
+    { shortLabel:"EMA5", formalLabel:"5日指数平滑移動平均", value:a.ema5 },
+    { shortLabel:"EMA20", formalLabel:"20日指数平滑移動平均", value:a.ema20 },
+    { shortLabel:"EMA60", formalLabel:"60日指数平滑移動平均", value:a.ema60 }
+  ];
+  byId("emaSummary").innerHTML = items.map(item => `
+    <div class="ema-item">
+      <span>${item.shortLabel}</span>
+      <small>${item.formalLabel}</small>
+      <strong>${fmt(item.value)}</strong>
+    </div>
+  `).join("");
 }
 
 function renderAnalysis(a){
